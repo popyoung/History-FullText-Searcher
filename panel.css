@@ -1,0 +1,118 @@
+html, body {
+    /*    height: 100%;*/
+    margin: 15px 5px 5px 40px;
+    /*    box-sizing: border-box;*/
+    /*    overflow: hidden;*/
+}
+
+button {
+    margin: 5px 20px 5px 0px;
+    -webkit-appearance: none;
+    border-radius: 2px;
+    border: 1px solid #ddd;
+    min-width: 50px;
+    max-width: 100%;
+    line-height: 30px;
+    padding: 0 15px;
+    display: inline-block;
+    font-size: inherit;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: normal;
+    /*    width: 50px;*/
+}
+
+    button:hover:enabled {
+        background-color: #f9f9f9;
+        color: #111;
+        border-color: #ccc;
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);
+        -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);
+    }
+
+    button:disabled {
+        color: #ccc;
+    }
+
+    button:active:enabled {
+        background: #ececec;
+        color: #111;
+        border-color: #ccc;
+        box-shadow: none;
+        -webkit-box-shadow: none;
+    }
+
+.container {
+    /*    margin: 5px 5px 5px 5px;*/
+    /*    width: 100%;*/
+    /*    margin-left: 10px;*/
+    /*    margin: 5px 5px 5px 5px;*/
+    padding: 5px 5px 5px 5px;
+    display: flex;
+    align-items: center;
+    width: 800px;
+}
+
+.label {
+    flex-shrink: 0;
+}
+
+#div0 {
+    width: 800px;
+    margin: 5px 5px 5px 15px;
+}
+
+input {
+    padding: 5px 15px 5px 15px;
+    height: 28px;
+    width: 120px;
+    flex-grow: 1;
+    border-radius: 6px;
+    border-top-left-radius: 6px;
+    border: 2px solid #ececec;
+}
+
+#keyword {
+    /*    border-collapse: collapse;*/
+    /*    border-spacing: 0;*/
+    /*    display: inline-block;*/
+    /*    background-color: #fff;*/
+    /*    color: #666;*/
+    /*    box-shadow: none;*/
+    /*    list-style: none;*/
+}
+
+.inputdate {
+    flex-grow: 0;
+    width: 105px;
+    flex-shrink: 0;
+}
+
+.title {
+    white-space: nowrap;
+    line-height: 2.5em;
+    font-size: medium;
+    margin: 5px 5px 5px 5px;
+}
+
+.keyword {
+    color: #de0000;
+    display: inline;
+}
+
+.content {
+    /*    white-space: nowrap;*/
+    margin: 5px 5px 5px 15px;
+    line-height: 2.5em;
+    font-size: small;
+}
+
+.content_child {
+    display: inline;
+}
+
+a:hover {
+    color: darkred;
+    text-decoration: none;
+}

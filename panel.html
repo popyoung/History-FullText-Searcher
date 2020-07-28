@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>历史搜索</title>
+    <link rel="stylesheet" type="text/css" href="panel.css">
+</head>
+<body>
+
+    <script type="text/javascript" src="panel.js"></script>
+    <div class="container"><div class="label">关键词：</div><input type="text" id="keyword" autofocus></div>
+    <div class="container">
+        <div class="label">网址匹配：</div>
+        <input type="text" id="web">
+        <div class="label">&nbsp;&nbsp;日期筛选：从&nbsp;&nbsp;</div>
+        <input type="date" class="inputdate" id="datestart">
+        <div class="label">&nbsp;&nbsp;至&nbsp;&nbsp;</div>
+        <input type="date" class="inputdate" id="dateend">
+    </div>
+    <!--<div class="container"><div class="label">日期区间：从&nbsp;&nbsp;</div><input type="date" class="inputdate" id="datestart"></div>-->
+    <!--<div class="container"> <div class="label">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;至&nbsp;&nbsp;</div><input type="date" class="inputdate" id="dateend"></div>-->
+    <div class="container">
+        <button id="send">搜索</button>
+        <button id="delete" disabled>永久删除</button>
+        <div id="msg"></div>
+    </div>
+
+    <div id="div0"></div>
+</body>
+</html>
