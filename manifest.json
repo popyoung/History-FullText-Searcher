@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "历史搜索助手",
   "description": "可以对历史进行全文搜索的工具",
-  "version": "1.0.2",
+  "version": "1.0.3",
   //"default_locale": "zh_CN",
   "icons": {
     "200": "icon.png"
@@ -41,7 +41,7 @@
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
-        "default": "Ctrl+Q"
+        "default": "Alt+Q"
       }
     }
   }
