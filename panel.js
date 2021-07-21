@@ -61,12 +61,27 @@ function main() {
                     var flag = true;
                     var pos = 0;
                     for (var i = input_keywords.length - 1; i >= 0; i--) {
-                        pos = value.html.indexOf(input_keywords[i]);
-                        if (pos == -1) {
-                            pos = value.url.indexOf(input_keywords[i]);
-                            if (pos == -1) {
+                        if (input_keywords[i][0] === "-") {
+                            var s = input_keywords[i].substr(1);
+                            pos = value.html.indexOf(s);
+                            if (pos > -1) {
                                 flag = false;
                                 break;
+                            }
+                            pos = value.url.indexOf(s);
+                            if (pos > -1) {
+                                flag = false;
+                                break;
+                            }
+                        }
+                        else {
+                            pos = value.html.indexOf(input_keywords[i]);
+                            if (pos == -1) {
+                                pos = value.url.indexOf(input_keywords[i]);
+                                if (pos == -1) {
+                                    flag = false;
+                                    break;
+                                }
                             }
                         }
                     }
