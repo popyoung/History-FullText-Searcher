@@ -17,4 +17,5 @@ PS：也是第一次在github公开代码，不是很懂，如果大家发现有
 
 安装：
 在火狐插件官网搜索“历史搜索助手”或者点击下方链接，然后安装
+
 https://addons.mozilla.org/zh-CN/firefox/addon/%E5%8E%86%E5%8F%B2%E6%90%9C%E7%B4%A2%E5%8A%A9%E6%89%8B/
