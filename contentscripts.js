@@ -1,7 +1,7 @@
 function url_add() {
     var url = location.href;
     var title = document.getElementsByTagName("title")[0].innerText;
-    var web_st = document.body.innerText.toLowerCase().replace(/\s+/g, " ");
+    var web_st = document.body.innerText.replace(/\s+/g, " ");
 
     if (web_st === null ||
         web_st === "" ||
