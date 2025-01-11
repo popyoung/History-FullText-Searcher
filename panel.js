@@ -114,8 +114,28 @@ function main() {
                     var pos = 0;
                     // 从后向前遍历关键词数组
                     for (var i = input_keywords.length - 1; i >= 0; i--) {
+                        // 如果关键词以-url:开头，表示要排除该网站
+                        if (input_keywords[i].startsWith("-url:")) {
+                            // 去除-url:前缀，获取真正的网站地址
+                            var s = input_keywords[i].substr(5);
+                            // 如果当前记录的URL包含该网站地址，则设置标志变量为false，并跳出循环
+                            if (value.url.toLowerCase().indexOf(s) != -1) {
+                                flag = false;
+                                break;
+                            }
+                        }
+                        // 如果关键词以-title:开头，表示要排除该标题
+                        else if (input_keywords[i].startsWith("-title:")) {
+                            // 去除-title:前缀，获取真正的标题
+                            var s = input_keywords[i].substr(7);
+                            // 如果当前记录的标题包含该标题，则设置标志变量为false，并跳出循环
+                            if (value.title.toLowerCase().indexOf(s)!= -1) {
+                                flag = false;
+                                break;
+                            }
+                        }
                         // 如果关键词以减号开头，表示要排除该关键词
-                        if (input_keywords[i][0] === "-") {
+                        else if (input_keywords[i][0] === "-") {
                             // 去除减号，获取真正的关键词
                             var s = input_keywords[i].substr(1);
                             // 在HTML内容中查找该关键词的位置
@@ -127,11 +147,6 @@ function main() {
                             }
                             // 在URL中查找该关键词的位置
                             pos = value.url.indexOf(s);
-                            // 如果找到了该关键词，则设置标志变量为false，并跳出循环
-                            if (pos > -1) {
-                                flag = false;
-                                break;
-                            }
                         }
                         // 如果关键词不以减号开头，表示要包含该关键词
                         else {
@@ -193,9 +208,16 @@ function main() {
                         document.getElementById("div0").appendChild(a);
                         //添加一个button，文本内容为“快照”，打开一个新网页，内容为value.html
                         var button = document.createElement("button");
-                        button.innerText = "快照";
+                        button.innerText = "打开快照";
                         button.onclick = function () {
                             window.open("about:blank").document.write('<html><head><meta charset="UTF-8"></head><body>' + value.html + '</body></html>');
+                        }
+                        document.getElementById("div0").appendChild(button);
+                        //添加一个button，文本内容为“屏蔽该站点”，点击后在id="keyword"的元素中添加-url:+value.url
+                        var button = document.createElement("button");
+                        button.innerText = "屏蔽该网址";
+                        button.onclick = function () {
+                            document.getElementById("keyword").value += " -url:" + value.url;
                         }
                         document.getElementById("div0").appendChild(button);
 

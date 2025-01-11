@@ -1,5 +1,7 @@
 function url_add() {
     var url = location.href;
+    //url去除#后面的内容
+    url = url.split("#")[0];
     var title = document.getElementsByTagName("title")[0].innerText;
     var web_st = document.body.innerText.replace(/\s+/g, " ");
 
