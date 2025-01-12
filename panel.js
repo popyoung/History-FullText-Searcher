@@ -103,6 +103,7 @@ function main() {
 
                 // 获取当前记录的值
                 var value = cursor.value;
+
                 // 如果网站地址为空或当前记录的URL包含输入的网站地址
                 if ((input_web === "" || value.url.indexOf(input_web) != -1)
                     //&& (isNaN(input_datestart.getTime()) || input_datestart <= value.date)
@@ -111,7 +112,8 @@ function main() {
                     // 初始化一个标志变量，用于标记是否匹配关键词
                     var flag = true;
                     // 初始化一个变量，用于记录关键词在HTML内容中的位置
-                    var pos = 0;
+                    var pos = -1;
+                    var pos2 = -1;
                     // 从后向前遍历关键词数组
                     for (var i = input_keywords.length - 1; i >= 0; i--) {
                         // 如果关键词以-url:开头，表示要排除该网站
@@ -119,7 +121,7 @@ function main() {
                             // 去除-url:前缀，获取真正的网站地址
                             var s = input_keywords[i].substr(5);
                             // 如果当前记录的URL包含该网站地址，则设置标志变量为false，并跳出循环
-                            if (value.url.toLowerCase().indexOf(s) != -1) {
+                            if (value.url.indexOf(s) != -1) {
                                 flag = false;
                                 break;
                             }
@@ -129,7 +131,7 @@ function main() {
                             // 去除-title:前缀，获取真正的标题
                             var s = input_keywords[i].substr(7);
                             // 如果当前记录的标题包含该标题，则设置标志变量为false，并跳出循环
-                            if (value.title.toLowerCase().indexOf(s)!= -1) {
+                            if (value.title.toLowerCase().indexOf(s) != -1) {
                                 flag = false;
                                 break;
                             }
@@ -151,12 +153,12 @@ function main() {
                         // 如果关键词不以减号开头，表示要包含该关键词
                         else {
                             // 在HTML内容中查找该关键词的位置
-                            pos = value.html.indexOf(input_keywords[i]);
+                            pos = value.html.toLowerCase().indexOf(input_keywords[i]);
                             // 如果没有找到该关键词，则在URL中查找
                             if (pos == -1) {
-                                pos = value.url.indexOf(input_keywords[i]);
+                                pos2 = value.title.toLowerCase().indexOf(input_keywords[i]);
                                 // 如果在URL中也没有找到该关键词，则设置标志变量为false，并跳出循环
-                                if (pos == -1) {
+                                if (pos2 == -1) {
                                     flag = false;
                                     break;
                                 }
@@ -169,51 +171,47 @@ function main() {
                         var url = value.url;
                         // 获取当前记录的标题
                         var title = value.title;
-                        // 将标题和URL添加到HTML内容中
-                        write_st = write_st + "<a href=\"" + url + "\" target='_blank'>" + title + "</a><br>";
+
+
                         // 创建一个链接元素
                         var a = document.createElement("a");
                         // 设置链接的URL
                         a.href = url;
                         // 设置链接在新窗口中打开
                         a.target = "_blank";
-                        // 设置链接的文本为标题
-                        a.text = title;
                         // 设置链接的类名为"title"
                         a.className = "title";
-                        // 创建一个div元素，用于显示日期和部分HTML内容
-                        var p1 = document.createElement("div");
-                        // 设置div的类名为"content_child"
-                        p1.className = "content_child";
-                        // 获取当前记录的日期，并格式化为"年-月-日"的形式
+                        var p1 = highlightKeyword(value.title, pos2);
+                        a.appendChild(p1);
+
                         var date = value.date.getFullYear() + "年" + (value.date.getMonth() + 1) + "月" + value.date.getDate() + "日  -  ";
-                        // 设置div的文本内容为日期和部分HTML内容
-                        p1.innerText = date + value.html.substring(pos - 30, pos);
-                        // 创建一个div元素，用于显示部分HTML内容
-                        var p2 = document.createElement("div");
-                        // 设置div的类名为"content_child"
-                        p2.className = "content_child";
-                        // 设置div的文本内容为部分HTML内容
-                        p2.innerText = value.html.substring(pos + input_keywords[0].length, pos + 100);
-                        var p = document.createElement("div");
-                        p.className = "keyword";
-                        p.innerText = value.html.substring(pos, pos + input_keywords[0].length);
 
                         var all = document.createElement("div");
+
+                        var p1 = highlightKeyword(date + value.html, pos);
                         all.appendChild(p1);
-                        all.appendChild(p);
-                        all.appendChild(p2);
+
                         all.className = "content "
                         //console.log(value.html);
                         document.getElementById("div0").appendChild(a);
-                        //添加一个button，文本内容为“快照”，打开一个新网页，内容为value.html
-                        var button = document.createElement("button");
-                        button.innerText = "打开快照";
-                        button.onclick = function () {
-                            window.open("about:blank").document.write('<html><head><meta charset="UTF-8"></head><body>' + value.html + '</body></html>');
-                        }
-                        document.getElementById("div0").appendChild(button);
-                        //添加一个button，文本内容为“屏蔽该站点”，点击后在id="keyword"的元素中添加-url:+value.url
+
+                        // 添加一个空的 <div> 元素来增加横向空隙
+                        var spacer = document.createElement("div");
+                        spacer.style.width = "10px"; // 你可以根据需要调整这个值
+                        spacer.style.display = "inline-block"; // 确保元素在同一行显示
+                        document.getElementById("div0").appendChild(spacer);
+
+                        // 添加一个a，文本内容为“打开快照”，打开一个snapshot.html，把value.html作为参数传入这个页面
+                        var a = document.createElement("a");
+                        a.href = "snapshot.html?text=" + encodeURIComponent(value.html);
+                        a.target = "_blank";
+                        a.innerText = "打开快照";
+                        document.getElementById("div0").appendChild(a);
+
+                        // 添加一个空的 <div> 元素来增加横向空隙
+                        document.getElementById("div0").appendChild(spacer.cloneNode(true));
+
+                        // 添加一个button，文本内容为“屏蔽该站点”，点击后在id="keyword"的元素中添加-url:+value.url
                         var button = document.createElement("button");
                         button.innerText = "屏蔽该网址";
                         button.onclick = function () {
@@ -231,6 +229,36 @@ function main() {
             }
         }
     };
+
+    function highlightKeyword(text, pos) {
+        var p1 = document.createElement("span");
+        //遍历input_keywords，高亮所有关键词
+        p1.innerText = text.substring(pos - 50, pos + input_keywords[0].length + 100);
+        const range = document.createRange();
+        for (var i in input_keywords) {
+            let nodeToSearch = p1.firstChild;
+            while (nodeToSearch) {
+                if (nodeToSearch.nodeType === Node.TEXT_NODE) {
+                    range.selectNodeContents(nodeToSearch);
+                    const text = range.toString();
+                    const index = text.toLowerCase().indexOf(input_keywords[i], 0);
+                    if (index === -1) {
+                        break;
+                    }
+                    range.setStart(nodeToSearch, index);
+                    range.setEnd(nodeToSearch, index + input_keywords[i].length);
+                    const highlightedNode = document.createElement('span');
+                    highlightedNode.className = 'keyword';
+                    highlightedNode.appendChild(range.extractContents());
+                    range.insertNode(highlightedNode);
+                    lastIndex = index + input_keywords[i].length;
+                }
+                nodeToSearch = nodeToSearch.nextSibling;
+            }
+        }
+
+        return p1;
+    }
 }
 function del() {
     if (lists.length > 0) {
